@@ -1,12 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore} from "redux" ;
+import {applyMiddleware, createStore} from "redux" ;
 
 import './index.css';
 import App from './Components/App';
 import combineReducers from "./Reducer/index" ; // rootReducer also both same job performed
 
-const store = createStore(combineReducers);
+// function logger(obj,next,action)   curry-function
+// logger(obj)(next)(action)    internally call as
+// const logger = function({dispatch,getState}){
+//   return function(next){
+//     return function(action){
+//       // middleware code
+//       console.log('action type',action.type);
+//       next(action);
+//     }
+//   }
+// }
+
+const logger = ({dispatch,action}) => (next) => (action) => {
+  // logger code
+  console.log('action type',action.type);
+  next(action);
+}
+
+const store = createStore(combineReducers,applyMiddleware(logger));
 console.log("store",store) ;
 console.log("getState",store.getState());
 
