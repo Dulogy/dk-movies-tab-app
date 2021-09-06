@@ -6,7 +6,9 @@ const initialMoviesState = {
     showFavourites: false,
 }
 
-export default function movies(state=initialMoviesState,action){
+// movie reducer
+export function movies(state=initialMoviesState,action){
+    console.log("movies reducer") ;
     // if(action.type === ADD_MOVIES){
     //     // {console.log(action)} 
     //     // action =  type : ADD_MOVIES,movies : movies  from action index.js file
@@ -39,5 +41,27 @@ export default function movies(state=initialMoviesState,action){
             }    
         default : 
             return state;
+    }
+}
+
+// search reducer
+const initialSearchState = {
+    result : {}
+}
+
+export function search(state=initialSearchState,action){
+    console.log("search reducer");
+    return state ;
+}
+
+// combining reducers movie and search
+const initialRootState = {
+    movies : initialMoviesState,
+    search : initialSearchState
+}
+export default function rootReducer(state=initialRootState,action){
+    return {
+        movies : movies(state.movies,action),
+        search : search(state.search,action),
     }
 }

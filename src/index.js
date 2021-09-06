@@ -4,9 +4,9 @@ import {createStore} from "redux" ;
 
 import './index.css';
 import App from './Components/App';
-import movies from "./Reducer/index" ;
+import rootReducer from "./Reducer/index" ;
 
-const store = createStore(movies);
+const store = createStore(rootReducer);
 console.log("store",store) ;
 console.log("getState",store.getState());
 
