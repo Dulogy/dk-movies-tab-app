@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {applyMiddleware, createStore} from "redux" ;
+import thunk from 'redux-thunk';
 
 import './index.css';
 import App from './Components/App';
@@ -20,11 +21,23 @@ import combineReducers from "./Reducer/index" ; // rootReducer also both same jo
 
 const logger = ({dispatch,action}) => (next) => (action) => {
   // logger code
+  if(typeof action !== 'function')
   console.log('action type',action.type);
   next(action);
 }
 
-const store = createStore(combineReducers,applyMiddleware(logger));
+// const thunk = ({dispatch,getState}) => (next) => (action) => {
+//   if(typeof action === 'function'){
+//     action(dispatch) ;
+//     return;
+//   }
+//   next(action) ;
+// }
+
+// thunk middleware
+
+
+const store = createStore(combineReducers,applyMiddleware(logger,thunk));
 console.log("store",store) ;
 console.log("getState",store.getState());
 
