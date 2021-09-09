@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 import {applyMiddleware, createStore} from "redux" ;
 import thunk from 'redux-thunk';
@@ -41,10 +41,24 @@ const store = createStore(combineReducers,applyMiddleware(logger,thunk));
 console.log("store",store) ;
 console.log("getState",store.getState());
 
+export const StoreContext = createContext();
+console.log("store context");
+console.log(StoreContext);
+
+class Provider extends React.Component{
+  render(){
+    const {store} = this.props ;
+    return (
+      <StoreContext.Provider value={store}>
+        {this.props.children}
+      </StoreContext.Provider>
+    )
+  }
+}
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App store={store}/>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <App/>
+  </Provider>,
   document.getElementById('root')
 );
