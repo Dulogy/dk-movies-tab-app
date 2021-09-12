@@ -1,28 +1,29 @@
 import React,{Component } from "react";
-// import {data} from "../data" ;
+import {data} from "../data" ;
+import { StoreContext } from '../index';
 import {addMovieToList,handleMovieSearch} from "../Actions/index" ;
 class Navbar extends Component{
     constructor(props){
         super(props) ;
         this.state = {
-            showSearchResult : false,
+            // showSearchResult : false,
             searchText : ''
         }
     }
 
     handleAddToMovies = (movie) => {
         this.props.dispatch(addMovieToList(movie)) ;
-        this.setState({
-            showSearchResult : false
-        })
+        // this.setState({
+        //     showSearchResult : false
+        // })
     }
 
-    handleSearch = () => {
+    handleSearchClick = () => {
         const {searchText} = this.state ;
         this.props.dispatch(handleMovieSearch(searchText));
     }
 
-    handleChange=(e) => {
+    handleSearchChange =(e) => {
         this.setState({
             searchText : e.target.value
         })
@@ -33,21 +34,38 @@ class Navbar extends Component{
         return(
             <div className="nav">
                 <div className="search-container"> 
-                    <input onChange={this.handleChange}/>
-                    <button id="search-btn" onClick={this.handleSearch}>Search</button>
-                    {showSearchResults && 
-                        <div className="search-results" style={{height : '180px'}} >
-                            <img src={movie.Poster} style={{height : '140px',width:"70%",marginLeft:"15%"}} alt="movie-picture"/>
-                            <div style={{marginTop : "4px"}} className="movie-info">
-                                <span style={{marginLeft : "10%"}}>{movie.Title + " "}</span>
-                                <button style={{marginLeft:"5%"}} onClick={()=> this.handleAddToMovies(movie)}>Add To Movie</button>
+                    <input onChange={this.handleSearchChange}/>
+                    <button id="search-btn" onClick={this.handleSearchClick}>Search</button>
+                    {showSearchResults && (
+                        <div className="search-results">
+                            <div className="search-result">
+                            <img src={movie.Poster} alt="search-pic" />
+                            <div className="movie-info">
+                                <span>{movie.Title}</span>
+                                <button onClick={() => this.handleAddToMovies(movie)}>
+                                Add to Movies
+                                </button>
+                            </div>
                             </div>
                         </div>
-                    }
+                    )}
                 </div>
             </div>
         )
     }
 }
 
-export default Navbar ;
+
+class NavbarWrapper extends React.Component {
+  render() {
+    return (
+      <StoreContext.Consumer>
+        {(store) => (
+          <Navbar dispatch={store.dispatch} search={this.props.search} />
+        )}
+      </StoreContext.Consumer>
+    );
+  }
+}
+
+export default NavbarWrapper;

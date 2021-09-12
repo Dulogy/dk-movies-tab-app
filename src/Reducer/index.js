@@ -77,10 +77,10 @@ export function search(state=initialSearchState,action){
 
 
 // combining reducers movie and search
-const initialRootState = {
-    movies : initialMoviesState,
-    search : initialSearchState
-}
+// const initialRootState = {
+//     movies : initialMoviesState,
+//     search : initialSearchState
+// }
 
 // export default function rootReducer(state=initialRootState,action){
 //     return {
