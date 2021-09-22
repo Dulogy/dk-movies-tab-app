@@ -61,6 +61,7 @@ class App extends React.Component {
             Favourites
           </div>
         </div>
+        <br></br>
 
         <div id="list">
           {displayMovies.map((movie) => (
